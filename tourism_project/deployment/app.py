@@ -86,12 +86,11 @@ input_data = {
 if st.button("f52e Predict Purchase Decision", use_container_width=True):
     features_df = pd.DataFrame([input_data])
 
-    # Enforce correct column order expected by training pipeline
+    # FIXED: Reorder columns robustly using .reindex to prevent KeyErrors on unexpected/missing feature targets
     try:
         training_cols = model.feature_names_in_
-        features_df = features_df[training_cols]
+        features_df = features_df.reindex(columns=training_cols, fill_value=np.nan)
     except AttributeError:
-        # Fallback if scikit-learn pipeline does not store feature_names_in_
         pass
 
     prediction = model.predict(features_df)[0]
