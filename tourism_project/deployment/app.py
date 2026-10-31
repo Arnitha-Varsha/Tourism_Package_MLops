@@ -6,7 +6,7 @@ import os
 
 # Page Title and description
 st.set_page_config(page_title="Tourism Package Purchase Predictor", layout="centered")
-st.title("🌴 Tourism Package Purchase Predictor")
+st.title("f334 Tourism Package Purchase Predictor")
 st.write("Predict whether a customer is likely to purchase the newly introduced Wellness Tourism Package based on customer profile and interaction data.")
 
 # Load the trained model pipeline
@@ -17,13 +17,13 @@ def load_model():
 
 try:
     model = load_model()
-    st.success("🚀 Model loaded successfully!")
+    st.success("f680 Model loaded successfully!")
 except Exception as e:
     st.error(f"❌ Error loading the model: {e}")
     st.stop()
 
 # User Inputs organized in categories
-st.subheader("🧑 Customer Demographics")
+st.subheader("f9d1 Customer Demographics")
 col1, col2 = st.columns(2)
 with col1:
     age = st.number_input("Age", min_value=18, max_value=100, value=30, step=1)
@@ -33,9 +33,10 @@ with col1:
 with col2:
     city_tier = st.selectbox("City Tier", [1, 2, 3], index=0)
     designation = st.selectbox("Designation", ["Executive", "Manager", "Senior Manager", "AVP", "VP"])
-    monthly_income = st.number_input("Monthly Income (INR)", min_value=0, max_value=200000, value=250000, step=1000)
+    # FIXED: Increased max_value to 500,000 so that default (250,000) is within bounds
+    monthly_income = st.number_input("Monthly Income (INR)", min_value=0, max_value=500000, value=250000, step=1000)
 
-st.subheader("✈️ Travel Preferences")
+st.subheader("✈f3fe Travel Preferences")
 col3, col4 = st.columns(2)
 with col3:
     num_person = st.number_input("Number of Persons Visiting", min_value=1, max_value=10, value=2)
@@ -46,7 +47,7 @@ with col4:
     passport = st.selectbox("Has Valid Passport?", ["Yes", "No"])
     own_car = st.selectbox("Owns a Car?", ["Yes", "No"])
 
-st.subheader("📞 Sales & Marketing Interactions")
+st.subheader("☎f3fe Sales & Marketing Interactions")
 col5, col6 = st.columns(2)
 with col5:
     typeof_contact = st.selectbox("Type of Contact", ["Self Inquiry", "Company Invited"])
@@ -56,7 +57,7 @@ with col6:
     duration_pitch = st.number_input("Duration of Pitch (minutes)", min_value=1, max_value=120, value=15)
     num_followups = st.number_input("Number of Follow-ups", min_value=0, max_value=10, value=3)
 
-# Preprocess custom text outputs back to numerical targets/features if required
+# Preprocess custom text outputs back to numerical features
 passport_val = 1 if passport == "Yes" else 0
 own_car_val = 1 if own_car == "Yes" else 0
 
@@ -83,15 +84,14 @@ input_data = {
 }
 
 # Predict Button
-if st.button("🔮 Predict Purchase Decision", use_container_width=True):
+if st.button("f52e Predict Purchase Decision", use_container_width=True):
     features_df = pd.DataFrame([input_data])
     
-    # Predict
     prediction = model.predict(features_df)[0]
     probability = model.predict_proba(features_df)[0][1]
     
     st.markdown("--- ")
     if prediction == 1:
-        st.success(f"🎉 **High Likelihood!** This customer is highly likely to purchase the Wellness Tourism Package (Probability: {probability * 100:.2f}%).")
+        st.success(f"f389 **High Likelihood!** This customer is highly likely to purchase the Wellness Tourism Package (Probability: {probability * 100:.2f}%).")
     else:
         st.info(f"❌ **Unlikely.** This customer is less likely to purchase the package (Probability of purchase: {probability * 100:.2f}%).")
