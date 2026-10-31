@@ -49,27 +49,27 @@ mlflow.set_experiment("Tourism_Package_Prediction")
 with mlflow.start_run():
     # Fit pipeline
     clf.fit(X_train, y_train)
-    
+
     # Log parameters
     mlflow.log_param("model_type", "XGBClassifier")
     mlflow.log_param("random_state", 42)
-    
+
     # Predict
     y_pred = clf.predict(X_test)
     y_proba = clf.predict_proba(X_test)[:, 1]
-    
+
     # Metrics
     acc = accuracy_score(y_test, y_pred)
     auc = roc_auc_score(y_test, y_proba)
-    
+
     mlflow.log_metric("accuracy", acc)
     mlflow.log_metric("roc_auc", auc)
-    
+
     print(f"Model evaluation complete. Accuracy: {acc:.4f}, ROC AUC: {auc:.4f}")
-    
+
     # Log model artifacts to MLflow
     mlflow.sklearn.log_model(clf, "model")
-    
+
     # Save local artifact to deployment directory
     os.makedirs("tourism_project/deployment", exist_ok=True)
     joblib.dump(clf, "tourism_project/deployment/model.pkl")
