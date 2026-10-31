@@ -40,7 +40,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas scikit-learn==1.6.1
+          pip install pandas scikit-learn==1.5.2
       - name: Run Data Preparation
         run: python tourism_project/model_building/prep.py
       - name: Upload Train Test Splits
@@ -64,7 +64,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy scikit-learn==1.6.1 xgboost mlflow joblib
+          pip install pandas numpy scikit-learn==1.5.2 xgboost mlflow joblib
       - name: Download Train Test Splits
         uses: actions/download-artifact@v4
         with:
