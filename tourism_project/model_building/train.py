@@ -67,8 +67,17 @@ with mlflow.start_run():
 
     print(f"Model evaluation complete. Accuracy: {acc:.4f}, ROC AUC: {auc:.4f}")
 
-    # Log model artifacts to MLflow
-    mlflow.sklearn.log_model(clf, "model")
+    # Log model artifacts to MLflow, explicitly trusting required internal serialization types
+    mlflow.sklearn.log_model(
+        sk_model=clf,
+        artifact_path="model",
+        skops_trusted_types=[
+            "numpy.dtype",
+            "sklearn.compose._column_transformer._RemainderColsList",
+            "xgboost.core.Booster",
+            "xgboost.sklearn.XGBClassifier"
+        ]
+    )
 
     # Save local artifact to deployment directory
     os.makedirs("tourism_project/deployment", exist_ok=True)
