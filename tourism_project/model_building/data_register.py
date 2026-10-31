@@ -1,6 +1,10 @@
-import pandas as pd   
+import pandas as pd
+import os
 
+# Fallback lookup to support both Colab absolute paths and GitHub local workspace paths
 RAW_PATH = "/content/tourism_project/data/tourism.csv"
+if not os.path.exists(RAW_PATH):
+    RAW_PATH = "tourism_project/data/tourism.csv"
 
 # Load the raw dataset.
 rows_before = sum(1 for _ in open(RAW_PATH, encoding="utf-8", errors="replace")) - 1
