@@ -33,6 +33,7 @@ with col1:
 with col2:
     city_tier = st.selectbox("City Tier", [1, 2, 3], index=0)
     designation = st.selectbox("Designation", ["Executive", "Manager", "Senior Manager", "AVP", "VP"])
+    # FIXED: Set max_value to 500,000 so the default value of 250,000 is safely within limits
     monthly_income = st.number_input("Monthly Income (INR)", min_value=0, max_value=500000, value=250000, step=1000)
 
 st.subheader("✈f3fe Travel Preferences")
@@ -85,18 +86,17 @@ input_data = {
 # Predict Button
 if st.button("f52e Predict Purchase Decision", use_container_width=True):
     features_df = pd.DataFrame([input_data])
-    
-    # Enforce correct column order expected by training pipeline
+
+    # FIXED: Reorder columns to align exactly with model training
     try:
         training_cols = model.feature_names_in_
         features_df = features_df[training_cols]
     except AttributeError:
-        # Fallback if scikit-learn pipeline does not store feature_names_in_
         pass
 
     prediction = model.predict(features_df)[0]
     probability = model.predict_proba(features_df)[0][1]
-    
+
     st.markdown("--- ")
     if prediction == 1:
         st.success(f"f389 **High Likelihood!** This customer is highly likely to purchase the Wellness Tourism Package (Probability: {probability * 100:.2f}%).")
