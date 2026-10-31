@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
+import os
 from sklearn.model_selection import train_test_split
 
+# Fallback lookup to support both Colab absolute paths and GitHub local workspace paths
 RAW_PATH = "/content/tourism_project/data/tourism.csv"
+if not os.path.exists(RAW_PATH):
+    RAW_PATH = "tourism_project/data/tourism.csv"
 
 # Load dataset
 df = pd.read_csv(RAW_PATH, on_bad_lines="skip")
@@ -32,4 +36,4 @@ y_train.to_csv("ytrain.csv", index=False)
 y_test.to_csv("ytest.csv", index=False)
 
 print("Data prepared, cleaned, and split successfully!")
-print(f"Train size: {X_train.shape[0]}, Test size: {X_test.shape[0]}")
+print(f
